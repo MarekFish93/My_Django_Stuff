@@ -5,6 +5,9 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
+from .serializers import UserProfileInfoSerializer
+from rest_framework import viewsets
+from .models import UserProfileInfo
 
 # Create your views here.
 def index(request):
@@ -70,3 +73,7 @@ def user_login(request):
 
     else:
         return render(request, 'basic_app/login.html', {})
+
+class app_interface(viewsets.ModelViewSet):
+    queryset = UserProfileInfo.objects.all().order_by('username')
+    serializer_class = UserProfileInfoSerializer
